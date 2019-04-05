@@ -1,0 +1,28 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "input_method": "powershell",
+  "description": "Adds members to an already existing local windows group",
+  "implementations": [
+    {
+      "name": "windows.ps1",
+      "requirements": [
+        "powershell"
+      ]
+    }
+  ],
+  "parameters": {
+    "ensure": {
+      "description": "Ensure local group member is either absent or present",
+      "type": "Enum[present,absent]"
+    },
+    "group": {
+      "description": "Name of local group members should be added to",
+      "type": "String[1]"
+    },
+    "member": {
+      "description": "String or Array of members to be added to the local group",
+      "type": "Variant[String[1], Array[String,1]]"
+    }
+  }
+}
