@@ -1,11 +1,15 @@
 {
   "name": "ffalor-groupmembers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "ffalor",
   "summary": "Task allows you to add or remove members to an already existing local windows group",
   "license": "Apache-2.0",
   "source": "https://github.com/ffalor/ffalor-groupmembers",
-  "dependencies": [],
+  "project_page": "https://github.com/ffalor/ffalor-groupmembers",
+  "issues_url": "https://github.com/ffalor/ffalor-groupmembers/issues",
+  "dependencies": [
+
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "windows",
