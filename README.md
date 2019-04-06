@@ -1,15 +1,17 @@
 # groupmembers
 
 [![Build Status](https://travis-ci.org/ffalor/ffalor-groupmembers.svg?branch=master)](https://travis-ci.org/ffalor/ffalor-groupmembers)
+[![Coverage Status](https://coveralls.io/repos/github/ffalor/resume/badge.svg?branch=gh-pages)](https://coveralls.io/github/ffalor/resume?branch=gh-pages)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/504d380a131a46528b66c78fb67236c5)](https://www.codacy.com/app/ffalor/ffalor-groupmembers?utm_source=github.com&utm_medium=referral&utm_content=ffalor/ffalor-groupmembers&utm_campaign=Badge_Grade)
 
-#### Table of Contents
+## Table of Contents
 
-1. [Description](#description)
-2. [Requirements](#Requirements)
-3. [Usage - Configuration options and additional functionality](#usage)
-   - [Puppet Tasks and Bolt](#Puppet-Task-and-Bolt)
-   - [Puppet Task API](#Puppet-Task-Api)
-4. [Development - Guide for contributing to the module](#development)
+1.  [Description](#description)
+2.  [Requirements](#Requirements)
+3.  [Usage - Configuration options and additional functionality](#usage)
+    -   [Puppet Tasks and Bolt](#Puppet-Task-and-Bolt)
+    -   [Puppet Task API](#Puppet-Task-Api)
+4.  [Development - Guide for contributing to the module](#development)
 
 ## Description
 
@@ -23,8 +25,8 @@ This task can be exposed as a service via the puppet task endpoint to allow remo
 
 This module is compatible with Puppet Enterprise and Puppet Bolt.
 
-- To run tasks with Puppet Enterprise, PE 2018.1 or later must be installed on the machine from which you are running task commands. Machines receiving task requests must be Puppet agents.
-- To run tasks with Puppet Bolt, Bolt 1.0 or later must be installed on the machine from which you are running task commands. Machines receiving task requests must have SSH or WinRM services enabled.
+-   To run tasks with Puppet Enterprise, PE 2018.1 or later must be installed on the machine from which you are running task commands. Machines receiving task requests must be Puppet agents.
+-   To run tasks with Puppet Bolt, Bolt 1.0 or later must be installed on the machine from which you are running task commands. Machines receiving task requests must have SSH or WinRM services enabled.
 
 ## Usage
 
@@ -32,13 +34,13 @@ This module is compatible with Puppet Enterprise and Puppet Bolt.
 
 To run an groupmembers task, use the task command, specifying the command to be executed.
 
-- With PE on the command line, run `puppet task run groupmembers ensure=<present|absent> group=<groupname> member=<String|Array>`.
-- With Bolt on the command line, run `bolt task run groupmembers ensure=<present|absent> group=<groupname> member=<String|Array>`.
+-   With PE on the command line, run `puppet task run groupmembers ensure=<present|absent> group=<groupname> member=<String|Array>`.
+-   With Bolt on the command line, run `bolt task run groupmembers ensure=<present|absent> group=<groupname> member=<String|Array>`.
 
-For example, to add a example\jdoe to administrators group, run:
+For example, to add a example\\jdoe to administrators group, run:
 
-- With PE, run `puppet task run groupmembers ensure=present group=administrators member="example\\jdoe" --nodes saturn`.
-- With Bolt, run `bolt task run groupmembers ensure=present group=administrators member="example\\jdoe" --nodes saturn`.
+-   With PE, run `puppet task run groupmembers ensure=present group=administrators member="example\\jdoe" --nodes saturn`.
+-   With Bolt, run `bolt task run groupmembers ensure=present group=administrators member="example\\jdoe" --nodes saturn`.
 
 ### Puppet Task API
 
