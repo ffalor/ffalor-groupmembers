@@ -70,6 +70,9 @@ extra_gemfiles = [
   File.join(Dir.home, '.gemfile'),
 ]
 
+# Coveralls
+gem 'coveralls', require: false
+
 extra_gemfiles.each do |gemfile|
   if File.file?(gemfile) && File.readable?(gemfile)
     eval(File.read(gemfile), binding)

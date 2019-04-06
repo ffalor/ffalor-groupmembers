@@ -42,4 +42,13 @@ def ensure_module_defined(module_name)
   end
 end
 
+if RUBY_VERSION >= '2.0.0'
+  require 'simplecov'
+  require 'coveralls'
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  SimpleCov.start do
+    add_filter 'spec/fixtures/modules/'
+  end
+end
+
 # 'spec_overrides' from sync.yml will appear below this line
