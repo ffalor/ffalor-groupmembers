@@ -1,4 +1,6 @@
 
+require 'coveralls'
+Coveralls.wear!
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
 
@@ -39,15 +41,6 @@ def ensure_module_defined(module_name)
   module_name.split('::').reduce(Object) do |last_module, next_module|
     last_module.const_set(next_module, Module.new) unless last_module.const_defined?(next_module)
     last_module.const_get(next_module)
-  end
-end
-
-if RUBY_VERSION >= '2.0.0'
-  require 'simplecov'
-  require 'coveralls'
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  SimpleCov.start do
-    add_filter 'spec/fixtures/modules/'
   end
 end
 
