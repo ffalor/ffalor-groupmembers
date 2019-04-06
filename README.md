@@ -1,5 +1,6 @@
 # groupmembers
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7227f71de36845a681312547f98ef7de)](https://app.codacy.com/app/ffalor/ffalor-groupmembers?utm_source=github.com&utm_medium=referral&utm_content=ffalor/ffalor-groupmembers&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/ffalor/ffalor-groupmembers.svg?branch=master)](https://travis-ci.org/ffalor/ffalor-groupmembers)
 
 #### Table of Contents
