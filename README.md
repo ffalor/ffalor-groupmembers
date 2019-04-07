@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/ffalor/ffalor-groupmembers.svg?branch=master)](https://travis-ci.org/ffalor/ffalor-groupmembers)
 [![Coverage Status](https://coveralls.io/repos/github/ffalor/resume/badge.svg?branch=gh-pages)](https://coveralls.io/github/ffalor/resume?branch=gh-pages)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/504d380a131a46528b66c78fb67236c5)](https://www.codacy.com/app/ffalor/ffalor-groupmembers?utm_source=github.com&utm_medium=referral&utm_content=ffalor/ffalor-groupmembers&utm_campaign=Badge_Grade)
+![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/ffalor/groupmembers.svg)
 
 ## Table of Contents
 
