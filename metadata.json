@@ -7,17 +7,20 @@
   "source": "https://github.com/ffalor/ffalor-groupmembers",
   "project_page": "https://github.com/ffalor/ffalor-groupmembers",
   "issues_url": "https://github.com/ffalor/ffalor-groupmembers/issues",
-  "dependencies": [
-
+  "tags": [
+    "windows",
+    "groups",
+    "users",
+    "access",
+    "task",
+    "membership",
+    "accounts"
   ],
+  "dependencies": [],
   "operatingsystem_support": [
     {
       "operatingsystem": "windows",
-      "operatingsystemrelease": [
-        "2012 R2",
-        "2016",
-        "10"
-      ]
+      "operatingsystemrelease": ["2012 R2", "2016", "10"]
     }
   ],
   "requirements": [
