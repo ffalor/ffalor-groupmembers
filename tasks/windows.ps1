@@ -48,9 +48,9 @@ Param(
     $member
 )
 
-function write_error($ensure, $message, $group, $use_ps, $force) {
+function write_error($ensure, $message, $group, $force) {
     if (!($force)) {
-        $members = get_members -group $group -use_ps $use_ps
+        $members = get_members -group $group
     }
     else {
         $members = "Unable to get members of group."
@@ -85,10 +85,10 @@ function write_error($ensure, $message, $group, $use_ps, $force) {
     Write-Host $error_payload | ConvertTo-Json -Compress
 }
 
-function write_success($ensure, $group, $use_ps) {
+function write_success($ensure, $group) {
     try {
 
-        $members = get_members -group $group -use_ps $use_ps
+        $members = get_members -group $group
         $success_payload = @"
 {
         "ensure": "${ensure}",
@@ -101,33 +101,28 @@ function write_success($ensure, $group, $use_ps) {
     }
     catch {
         $error_message = $_.Exception.Message
-        write_error -ensure $ensure -message $error_message -group $group -use_ps $False -force $False
+        write_error -ensure $ensure -message $error_message -group $group -force $False
         exit 1
     }
 }
 
-function get_members($group, $use_ps) {
+function get_members($group) {
     try {
-        if ($use_ps) {
-            $members = Get-LocalGroupMember -Group $group -ErrorAction Stop
-            return ConvertTo-Json -InputObject $members.name -Compress
+
+        $cmd = "net.exe localgroup `"${group}`""
+        $result = cmd.exe /c $cmd
+        if ($result.length -ge 1) {
+            $result = $result[6..($result.length - 3)]
+            return ConvertTo-Json -InputObject $result -Compress
         }
         else {
-            $cmd = "net.exe localgroup `"${group}`""
-            $result = cmd.exe /c $cmd
-            if ($result.length -ge 1) {
-                $result = $result[6..($result.length - 3)]
-                return ConvertTo-Json -InputObject $result -Compress
-            }
-            else {
-                return  '"No members returned."'
-            }
+            return  '"No members returned."'
         }
 
     }
     catch {
         $error_message = $_.Exception.Message
-        write_error -ensure $ensure -message $error_message -group $group -use_ps $False -force $True
+        write_error -ensure $ensure -message $error_message -group $group -force $True
         exit 1
     }
 }
@@ -142,11 +137,11 @@ try {
             if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is already a member of the group.") {
                 $command_error.Append($temp_output[0]) | Out-Null
                 $command_error.Append(" " + $temp_output[2]) | Out-Null
-                write_error -ensure $ensure -message $command_error.ToString() -group $group -use_ps $False -force $False
+                write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False
                 exit 1
             }
         }
-        write_success -ensure $ensure -group $group -use_ps $False  
+        write_success -ensure $ensure -group $group $False  
     }
     elseif ($ensure -eq "absent") {
         $command_error = New-Object System.Text.StringBuilder
@@ -156,15 +151,15 @@ try {
             if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is not a member of the group.") {
                 $command_error.Append($temp_output[0]) | Out-Null
                 $command_error.Append(" " + $temp_output[2]) | Out-Null
-                write_error -ensure $ensure -message $command_error.ToString() -group $group -use_ps $False -force $False
+                write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False
                 exit 1
             }
         }
-        write_success -ensure $ensure -group $group -use_ps $False
+        write_success -ensure $ensure -group $group
     }
 }
 catch {
     $error_message = $_.Exception.Message
-    write_error -ensure $ensure -message $error_message -group $group -use_ps $False -force $False
+    write_error -ensure $ensure -message $error_message -group $group -force $False
     exit 1
 }
