@@ -91,7 +91,7 @@ function write_success($ensure, $group, $use_ps) {
         $members = get_members -group $group -use_ps $use_ps
         $success_payload = @"
 {
-        "ensure": ${ensure},
+        "ensure": "${ensure}",
         "group": "${group}",
         "members": ${members}
 }
