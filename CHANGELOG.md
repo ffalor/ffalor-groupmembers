@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 -   Fixed CHANGELOG typos.
 -   Updated readme to be more clear.
+-   Updated tags to increase Puppet quality score.
 
 ## Release 0.2.0 - 2019-4-9
 
