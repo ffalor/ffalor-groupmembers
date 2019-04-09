@@ -27,7 +27,7 @@ This task can be exposed as a service via the puppet task endpoint to allow remo
 
 ## Requirements
 
-PowerShell 5.1 is recommended to ensure full functionality. Will use net.exe if version 5.1 is not present. See the [Limitations](Limitations) section for more information.
+PowerShell 5.1 is recommended to ensure full functionality. The task will use net.exe if version 5.1 is not present. See the [Limitations](Limitations) section for more information.
 
 This module is compatible with Puppet Enterprise and Puppet Bolt.
 

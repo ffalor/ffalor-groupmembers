@@ -4,12 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+
+-   Fixed CHANGELOG typos.
+-   Updated readme to be more clear.
+
 ## Release 0.2.0 - 2019-4-9
 
 ### Added
--   Member names larger than 20 can now be added if PowerShell 5.1 is present.
--  If a member is passed with a name longer than 20, and PowerShell 5.1 is not present they will be skipped instead of erroring out.
-- Member that are skipped will show up in a new JSON value.
+
+-   Member names longer than 20 characters can now be added if PowerShell 5.1 is present.
+-   If a member is passed with a name longer than 20 characters and PowerShell 5.1 is not present they will be skipped instead of erroring out.
+-   Members that are skipped will show up in a new JSON value.
+
 ### Changed
 
 -   Updated success output to show as correct JSON.
@@ -27,4 +34,4 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
--   Groupmembers task initial release
+-   Groupmembers task initial release.
