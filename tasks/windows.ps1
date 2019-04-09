@@ -48,7 +48,7 @@ Param(
     $member
 )
 
-function write_error($ensure, $message, $group, $force) {
+function write_error($ensure, $message, $group, $force, $skipped) {
     if (!($force)) {
         $members = get_members -group $group
     }
@@ -60,9 +60,15 @@ function write_error($ensure, $message, $group, $force) {
         $message = $message | ConvertTo-Json
     }
     else {
-        $message = ""
+        $message = '"No error message recieved."'
     }
 
+    if (!([String]::IsNullOrWhiteSpace($skipped))) {
+        $skipped = $skipped | ConvertTo-Json
+    }
+    else {
+        $skipped = '"None"'
+    }
 
     $error_payload = @"
 {
@@ -78,22 +84,32 @@ function write_error($ensure, $message, $group, $force) {
     "_output": "Something went wrong with task",
     "ensure": "${ensure}",
     "group": "${group}",
-    "members": ${members}
+    "members": ${members},
+    "skipped": ${skipped}
 }
 "@
 
-    Write-Host $error_payload | ConvertTo-Json -Compress
+    Write-Host $error_payload
 }
 
-function write_success($ensure, $group) {
+function write_success($ensure, $group, $skipped) {
     try {
 
         $members = get_members -group $group
+
+        if (!([String]::IsNullOrWhiteSpace($skipped))) {
+            $skipped = $skipped | ConvertTo-Json
+        }
+        else {
+            $skipped = '"None"'
+        }
+
         $success_payload = @"
 {
         "ensure": "${ensure}",
         "group": "${group}",
-        "members": ${members}
+        "members": ${members},
+        "skipped": ${skipped}
 }
 "@
         Write-Host $success_payload
@@ -101,11 +117,10 @@ function write_success($ensure, $group) {
     }
     catch {
         $error_message = $_.Exception.Message
-        write_error -ensure $ensure -message $error_message -group $group -force $False
+        write_error -ensure $ensure -message $error_message -group $group -force $False -skipped $skipped
         exit 1
     }
 }
-
 function get_members($group) {
     try {
 
@@ -127,35 +142,88 @@ function get_members($group) {
     }
 }
 
+function get_ps_version() {
+    $ps_object = $PSVersionTable.PSVersion
+
+    return $ps_object
+}
+
 $redirect = "2>&1"
 try {
-    if ($ensure -eq "present") {
-        $command_error = New-Object System.Text.StringBuilder
-        foreach ( $m in $member) {
-            $cmd = "net.exe localgroup `"${group}`" `"${m}`" /add"
-            $temp_output = cmd.exe /c $cmd $redirect
-            if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is already a member of the group.") {
-                $command_error.Append($temp_output[0]) | Out-Null
-                $command_error.Append(" " + $temp_output[2]) | Out-Null
-                write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False
-                exit 1
+    $ps_version = get_ps_version
+    if (($ps_version.major -eq 5) -and ($ps_version.minor -eq 1)) {
+        if ($ensure -eq "present") {
+            $command_error = New-Object System.Text.StringBuilder
+            foreach ( $m in $member) {
+                try {
+                    Add-LocalGroupMember -Group "${group}" -Member "${m}" -ErrorAction Stop
+                }
+                catch {
+                    $error_message = $_.Exception.Message
+                    if ($error_message -notmatch "is already a member of group administrators.") {
+                        write_error -ensure $ensure -message $error_message -group $group -force $False
+                        exit 1
+                    }
+                }
             }
+            write_success -ensure $ensure -group $group -force $False 
+        } 
+        elseif ($ensure -eq "absent") {
+            foreach ( $m in $member) {
+                try {
+                    Remove-LocalGroupMember -Group "${group}" -Member $member -ErrorAction Stop
+                }
+                catch {
+                    $error_message = $_.Exception.Message
+                    if ($error_message -notmatch "was not found in group administrators") {
+                        write_error -ensure $ensure -message $error_message -group $group -force $False
+                        exit 1
+                    }
+                }
+            }
+            write_success -ensure $ensure -group $group -force $False 
         }
-        write_success -ensure $ensure -group $group $False  
     }
-    elseif ($ensure -eq "absent") {
-        $command_error = New-Object System.Text.StringBuilder
-        foreach ( $m in $member) {
-            $cmd = "net.exe localgroup `"${group}`" `"${m}`" /delete"
-            $temp_output = cmd.exe /c $cmd $redirect
-            if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is not a member of the group.") {
-                $command_error.Append($temp_output[0]) | Out-Null
-                $command_error.Append(" " + $temp_output[2]) | Out-Null
-                write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False
-                exit 1
+    else {
+        if ($ensure -eq "present") {
+            $command_error = New-Object System.Text.StringBuilder
+            $skipped = @()
+            foreach ( $m in $member) {
+                if ($m.length -ge 20) { 
+                    $skipped += $m
+                    continue 
+                }
+                $cmd = "net.exe localgroup `"${group}`" `"${m}`" /add"
+                $temp_output = cmd.exe /c $cmd $redirect
+                if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is already a member of the group.") {
+                    $command_error.Append($temp_output[0]) | Out-Null
+                    $command_error.Append(" " + $temp_output[2]) | Out-Null
+                    write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False -skipped $skipped
+                    exit 1
+                }
             }
+            write_success -ensure $ensure -group $group -force $False -skipped $skipped
+
         }
-        write_success -ensure $ensure -group $group
+        elseif ($ensure -eq "absent") {
+            $command_error = New-Object System.Text.StringBuilder
+            $skipped = @()
+            foreach ( $m in $member) {
+                if ($m.length -ge 20) { 
+                    $skipped += $m
+                    continue 
+                }
+                $cmd = "net.exe localgroup `"${group}`" `"${m}`" /delete"
+                $temp_output = cmd.exe /c $cmd $redirect
+                if ($LASTEXITCODE -ne 0 -and $temp_output[2] -ne "The specified account name is not a member of the group.") {
+                    $command_error.Append($temp_output[0]) | Out-Null
+                    $command_error.Append(" " + $temp_output[2]) | Out-Null
+                    write_error -ensure $ensure -message $command_error.ToString() -group $group -force $False -skipped $skipped
+                    exit 1
+                }
+            }
+            write_success -ensure $ensure -group $group -force $False -skipped $skipped
+        }
     }
 }
 catch {

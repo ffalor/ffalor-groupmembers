@@ -27,6 +27,8 @@ This task can be exposed as a service via the puppet task endpoint to allow remo
 
 ## Requirements
 
+PowerShell 5.1 is recommended to ensure full functionality. Will use net.exe if version 5.1 is not present. See the [Limitations](Limitations) section for more information.
+
 This module is compatible with Puppet Enterprise and Puppet Bolt.
 
 -   To run tasks with Puppet Enterprise, PE 2018.1 or later must be installed on the machine from which you are running task commands. Machines receiving task requests must be Puppet agents.
@@ -74,7 +76,10 @@ You can also run tasks in the PE console. See PE task documentation for complete
 
 ## Limitations
 
-Only tested on 2016 and 2012 R2 window servers.
+The task will use PowerShell if version 5.1 is present. If not net.exe will be used which has a limitation of not being able to add/remove members with names longer than 20 characters.
+See this [Microsoft Support Doc](https://support.microsoft.com/en-us/help/324639/net-exe-add-command-does-not-support-names-longer-than-20-characters) for more information. 
+
+If PowerShell 5.1 is not present, and a member with a name longer than 20 characters is passed the task will skip that member to avoid erroring and to ensure other valid members are added.
 
 ## Development
 
