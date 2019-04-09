@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-## Release 1.0.0 - 2019-4-9
+## Release 0.2.0 - 2019-4-9
 
 ### Added
 -   Member names larger than 20 can now be added if PowerShell 5.1 is present.

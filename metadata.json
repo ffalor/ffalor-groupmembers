@@ -1,6 +1,6 @@
 {
   "name": "ffalor-groupmembers",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "author": "ffalor",
   "summary": "Task allows you to add or remove members to an already existing local windows group",
   "license": "Apache-2.0",
@@ -20,11 +20,7 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "windows",
-      "operatingsystemrelease": [
-        "2012 R2",
-        "2016",
-        "10"
-      ]
+      "operatingsystemrelease": ["2012 R2", "2016", "10"]
     }
   ],
   "requirements": [
