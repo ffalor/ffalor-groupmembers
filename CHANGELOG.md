@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 -   Fixed CHANGELOG typos.
 -   Updated readme to be more clear.
 -   Updated tags to increase Puppet quality score.
+-   Changed Write-Host to Write-Output becasue of a codacy policy
 
 ## Release 0.2.0 - 2019-4-9
 

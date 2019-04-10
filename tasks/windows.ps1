@@ -89,7 +89,7 @@ function write_error($ensure, $message, $group, $force, $skipped) {
 }
 "@
 
-    Write-Host $error_payload
+    Write-Output $error_payload
 }
 
 function write_success($ensure, $group, $skipped) {
@@ -112,7 +112,7 @@ function write_success($ensure, $group, $skipped) {
         "skipped": ${skipped}
 }
 "@
-        Write-Host $success_payload
+        Write-Output $success_payload
 
     }
     catch {
