@@ -189,7 +189,7 @@ try {
             $command_error = New-Object System.Text.StringBuilder
             $skipped = @()
             foreach ( $m in $member) {
-                if ($m.length -ge 20) { 
+                if ($m.length -gt 20) { 
                     $skipped += $m
                     continue 
                 }
@@ -209,7 +209,7 @@ try {
             $command_error = New-Object System.Text.StringBuilder
             $skipped = @()
             foreach ( $m in $member) {
-                if ($m.length -ge 20) { 
+                if ($m.length -gt 20) { 
                     $skipped += $m
                     continue 
                 }
