@@ -160,7 +160,7 @@ try {
                 }
                 catch {
                     $error_message = $_.Exception.Message
-                    if ($error_message -notmatch "is already a member of group administrators.") {
+                    if ($error_message -notmatch "is already a member of group.") {
                         write_error -ensure $ensure -message $error_message -group $group -force $False
                         exit 1
                     }
@@ -175,7 +175,7 @@ try {
                 }
                 catch {
                     $error_message = $_.Exception.Message
-                    if ($error_message -notmatch "was not found in group administrators") {
+                    if ($error_message -notmatch "was not found in group") {
                         write_error -ensure $ensure -message $error_message -group $group -force $False
                         exit 1
                     }
