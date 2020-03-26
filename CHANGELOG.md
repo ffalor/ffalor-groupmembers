@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## Release 0.2.1 - 2020-3-26
+
 ### Changed
 
+-   Fixed exception check to prevent failures
 -   Fixed CHANGELOG typos.
 -   Updated readme to be more clear.
 -   Updated tags to increase Puppet quality score.
