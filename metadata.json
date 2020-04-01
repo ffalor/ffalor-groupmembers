@@ -7,7 +7,7 @@
   "source": "https://github.com/ffalor/ffalor-groupmembers",
   "project_page": "https://github.com/ffalor/ffalor-groupmembers",
   "issues_url": "https://github.com/ffalor/ffalor-groupmembers/issues",
-  "tags": ["windows", "groups", "users", "access", "membership", "accounts"],
+  "tags": ["groups", "users", "access", "membership", "accounts"],
   "dependencies": [],
   "operatingsystem_support": [
     {
